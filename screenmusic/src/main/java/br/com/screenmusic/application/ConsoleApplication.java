@@ -62,12 +62,12 @@ public class ConsoleApplication {
                         System.out.println("Saindo...");
                         break;
                     default:
-                        System.err.println("Digite um valor válido da próxima vez!");
+                        System.err.println("Digite um valor válido nas opções!");
                         break;
                 }
 
             } catch (Exception e) {
-                throw new RuntimeException("Erro no método exibirMenu!" + e.getMessage());
+                throw new RuntimeException("\nErro no método exibirMenu!" + e.getMessage());
             }
         }
     }
@@ -79,10 +79,16 @@ public class ConsoleApplication {
         System.out.print("Digite um Cantor(a): ");
         var cantor = scanner.nextLine();
 
-        singer.setName(cantor);
-        listSinger.add(singer);
+        List<Singer> listaCantores = iMusicRepository.buscarCantor(cantor);
 
-        System.out.println(singer.getName() + " cadastrado(a) com sucesso!");
+        if (listaCantores.isEmpty()) {
+            singer.setName(cantor);
+            listSinger.add(singer);
+
+            System.out.println(singer.getName() + " cadastrado(a) com sucesso!");
+        } else {
+            System.out.println(cantor + " já cadastrado no banco de dados!");
+        }
     }
 
     private void cadastrarMusica() {
