@@ -10,11 +10,18 @@ public class Music {
     private Long id;
     @Column(unique = true)
     private String name;
+    @Enumerated(EnumType.STRING)
+    private StyleMusic estiloDaMusica;
     @ManyToOne
     private Singer singer;
 
     public Music() {
 
+    }
+
+    public Music(String musica, StyleMusic estiloMusica) {
+        this.name = musica;
+        this.estiloDaMusica = estiloMusica;
     }
 
     public Long getId() {
@@ -41,5 +48,19 @@ public class Music {
     public Music setSinger(Singer singer) {
         this.singer = singer;
         return this;
+    }
+
+    public StyleMusic getEstiloDaMusica() {
+        return estiloDaMusica;
+    }
+
+    public Music setEstiloDaMusica(StyleMusic estiloDaMusica) {
+        this.estiloDaMusica = estiloDaMusica;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return  "Music { name= '" + name + '\'' + ", estilo da musica= " + estiloDaMusica + ", artista= " + singer + '}';
     }
 }

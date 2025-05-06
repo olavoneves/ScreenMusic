@@ -12,11 +12,18 @@ public class Singer {
     private Long id;
     @Column(unique = true)
     private String name;
+    @Enumerated(EnumType.STRING)
+    private Banda banda;
     @OneToMany(mappedBy = "singer")
     private List<Music> listMusic;
 
     public Singer() {
 
+    }
+
+    public Singer(String cantor, Banda banda) {
+        this.name = cantor;
+        this.banda = banda;
     }
 
     public Long getId() {
@@ -43,5 +50,19 @@ public class Singer {
     public Singer setListMusic(List<Music> listMusic) {
         this.listMusic = listMusic;
         return this;
+    }
+
+    public Banda getBanda() {
+        return banda;
+    }
+
+    public Singer setBanda(Banda banda) {
+        this.banda = banda;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Artista { name= '" + name + '\'' + ", estilo da banda= " + banda + ", listMusic= " + listMusic + '}';
     }
 }

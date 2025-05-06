@@ -1,8 +1,11 @@
 package br.com.screenmusic.application;
 
+import br.com.screenmusic.model.Banda;
 import br.com.screenmusic.model.Music;
 import br.com.screenmusic.model.Singer;
+import br.com.screenmusic.model.StyleMusic;
 import br.com.screenmusic.repository.IMusicRepository;
+import br.com.screenmusic.repository.ISingerRepository;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,12 +14,13 @@ public class ConsoleApplication {
     private Scanner scanner;
     private Singer singer;
     private Music music;
-    private List<Singer> listSinger;
     private List<Music> listMusic;
     private IMusicRepository iMusicRepository;
+    private ISingerRepository iSingerRepository;
 
-    public ConsoleApplication(IMusicRepository iMusicRepository) {
+    public ConsoleApplication(IMusicRepository iMusicRepository, ISingerRepository iSingerRepository) {
         this.iMusicRepository = iMusicRepository;
+        this.iSingerRepository = iSingerRepository;
     }
 
     public void exibirMenu() {
@@ -74,28 +78,53 @@ public class ConsoleApplication {
 
     private void cadastrarCantor() {
         scanner = new Scanner(System.in);
-        singer = new Singer();
 
         System.out.print("Digite um Cantor(a): ");
         var cantor = scanner.nextLine();
 
-        List<Singer> listaCantores = iMusicRepository.buscarCantor(cantor);
+        System.out.print("""
+                
+                 *************** TIPO ***************
+                
+                    > 1. Solo
+                    > 2. Dupla
+                    > 3. Trio
+                    > 4. Banda
+            
+                    > 0. Outro
+                """);
+        System.out.print("\n    > ");
+        var tipoDaBanda = scanner.nextInt();
+        scanner.nextLine();
 
-        if (listaCantores.isEmpty()) {
-            singer.setName(cantor);
-            listSinger.add(singer);
-
-            System.out.println(singer.getName() + " cadastrado(a) com sucesso!");
-        } else {
-            System.out.println(cantor + " já cadastrado no banco de dados!");
+        Banda banda = null;
+        switch (tipoDaBanda) {
+            case 1:
+                banda = Banda.valueOf("SOLO");
+                break;
+            case 2:
+                banda = Banda.valueOf("DUPLA");
+                break;
+            case 3:
+                banda = Banda.valueOf("TRIO");
+                break;
+            case 4:
+                banda = Banda.valueOf("BANDA");
+                break;
+            case 0:
+                banda = Banda.valueOf("OUTRO");
+                break;
+            default:
+                break;
         }
+        singer = new Singer(cantor, banda);
+        iSingerRepository.save(singer);
+
+        System.out.println(singer.getName() + " cadastrado(a) com sucesso!");
     }
 
     private void cadastrarMusica() {
         scanner = new Scanner(System.in);
-        music = new Music();
-
-        listSinger.forEach(System.out::println);
 
         System.out.print("Escolha um Cantor(a): ");
         var cantor = scanner.nextLine();
@@ -108,8 +137,67 @@ public class ConsoleApplication {
             System.out.print("Digite uma Música: ");
             var musica = scanner.nextLine();
 
-            music.setName(musica);
-            listMusic.add(music);
+            System.out.print("""
+                
+                 *************** ESTILO ***************
+                
+                        >  1. Sertanejo
+                        >  2. Funk
+                        >  3. Pop
+                        >  4. Rap
+                        >  5. Trap
+                        >  6. Forro
+                        >  7. Pagode
+                        >  8. Samba
+                        >  9. MPB
+                        > 10. Rock
+                
+                        > 0. Outro
+                """);
+            System.out.print("\n    > ");
+            var tipoDaBanda = scanner.nextInt();
+            scanner.nextLine();
+
+            StyleMusic estiloMusica = null;
+            switch (tipoDaBanda) {
+                case 1:
+                    estiloMusica = StyleMusic.valueOf("SERTANEJO");
+                    break;
+                case 2:
+                    estiloMusica = StyleMusic.valueOf("FUNK");
+                    break;
+                case 3:
+                    estiloMusica = StyleMusic.valueOf("POP");
+                    break;
+                case 4:
+                    estiloMusica = StyleMusic.valueOf("RAP");
+                    break;
+                case 5:
+                    estiloMusica = StyleMusic.valueOf("TRAP");
+                    break;
+                case 6:
+                    estiloMusica = StyleMusic.valueOf("FORRO");
+                    break;
+                case 7:
+                    estiloMusica = StyleMusic.valueOf("PAGODE");
+                    break;
+                case 8:
+                    estiloMusica = StyleMusic.valueOf("SAMBA");
+                    break;
+                case 9:
+                    estiloMusica = StyleMusic.valueOf("MPB");
+                    break;
+                case 10:
+                    estiloMusica = StyleMusic.valueOf("ROCK");
+                    break;
+                case 0:
+                    estiloMusica = StyleMusic.valueOf("OUTRO");
+                    break;
+                default:
+                    break;
+            }
+            music = new Music(musica, estiloMusica);
+            iMusicRepository.save(music);
 
             System.out.println(music.getName() + " cadastrado(a) com sucesso!");
         }
