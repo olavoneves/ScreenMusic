@@ -241,12 +241,10 @@ public class ConsoleApplication {
 
     private void buscarDadosCantor() {
         HuggingFaceService huggingFaceService = new HuggingFaceService();
-        List<Singer> listSingers = iSingerRepository.findAll();
-        listSingers.forEach(c -> System.out.println("Artista: " + c.getName()));
 
-        System.out.print("Escolha um Cantor(a): ");
-        var cantor = scanner.nextLine();
+        System.out.print("Digite o que você gostaria de saber sobre o(a) Cantor(a): ");
+        var buscaDados = scanner.nextLine();
 
-        huggingFaceService.getAIResponse("Busque dados sobre o(a) artista " + cantor);
+        huggingFaceService.getAIResponse(buscaDados);
     }
 }
