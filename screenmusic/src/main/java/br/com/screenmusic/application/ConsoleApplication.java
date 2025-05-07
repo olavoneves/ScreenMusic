@@ -5,6 +5,7 @@ import br.com.screenmusic.model.Music;
 import br.com.screenmusic.model.Singer;
 import br.com.screenmusic.model.StyleMusic;
 import br.com.screenmusic.repository.ISingerRepository;
+import br.com.screenmusic.service.HuggingFaceService;
 
 import java.util.List;
 import java.util.Optional;
@@ -224,14 +225,28 @@ public class ConsoleApplication {
 
     private void listarMusicas() {
         List<Singer> listSingers = iSingerRepository.findAll();
-        listSingers.forEach(System.out::println);
+        listSingers.forEach(c -> c.getListMusic().forEach(System.out::println));
     }
 
     private void buscarMusicasPorCantor() {
+        List<Singer> listSingers = iSingerRepository.findAll();
+        listSingers.forEach(c -> System.out.println("Artista: " + c.getName()));
 
+        System.out.print("Escolha um Cantor(a): ");
+        var cantor = scanner.nextLine();
+
+        List<Music> musicaPorCantor = iSingerRepository.buscarMusica(cantor);
+        musicaPorCantor.forEach(System.out::println);
     }
 
     private void buscarDadosCantor() {
+        HuggingFaceService huggingFaceService = new HuggingFaceService();
+        List<Singer> listSingers = iSingerRepository.findAll();
+        listSingers.forEach(c -> System.out.println("Artista: " + c.getName()));
 
+        System.out.print("Escolha um Cantor(a): ");
+        var cantor = scanner.nextLine();
+
+        huggingFaceService.getAIResponse("Busque dados sobre o(a) artista " + cantor);
     }
 }
