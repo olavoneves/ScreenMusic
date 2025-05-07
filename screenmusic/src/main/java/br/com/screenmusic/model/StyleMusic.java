@@ -10,6 +10,6 @@ public enum StyleMusic {
     PAGODE,
     SAMBA,
     MPB,
-    ROCK,
-    OUTRO;
+    ROCK;
+
 }

@@ -4,6 +4,5 @@ public enum Banda {
     SOLO,
     DUPLA,
     TRIO,
-    BANDA,
-    OUTRO;
+    QUARTETO;
 }

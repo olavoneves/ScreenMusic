@@ -8,7 +8,7 @@ public class Music {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(name = "musica", unique = true)
     private String name;
     @Enumerated(EnumType.STRING)
     private StyleMusic estiloDaMusica;
@@ -23,6 +23,7 @@ public class Music {
         this.name = musica;
         this.estiloDaMusica = estiloMusica;
     }
+
 
     public Long getId() {
         return id;
@@ -61,6 +62,6 @@ public class Music {
 
     @Override
     public String toString() {
-        return  "Music { name= '" + name + '\'' + ", estilo da musica= " + estiloDaMusica + ", artista= " + singer + '}';
+        return  "Musica {name= '" + name + '\'' + ", estilo da musica= " + estiloDaMusica + ", artista= " + singer.getName() + '}';
     }
 }

@@ -10,11 +10,11 @@ public class Singer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(name = "artista", unique = true)
     private String name;
     @Enumerated(EnumType.STRING)
     private Banda banda;
-    @OneToMany(mappedBy = "singer")
+    @OneToMany(mappedBy = "singer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Music> listMusic;
 
     public Singer() {
@@ -63,6 +63,6 @@ public class Singer {
 
     @Override
     public String toString() {
-        return "Artista { name= '" + name + '\'' + ", estilo da banda= " + banda + ", listMusic= " + listMusic + '}';
+        return "Artista {name= '" + name + '\'' + ", estilo da banda= " + banda + ", musicas= " + listMusic + '}';
     }
 }
