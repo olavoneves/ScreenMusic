@@ -133,6 +133,9 @@ public class ConsoleApplication {
         var novaMusica = "S";
 
         while (novaMusica.equals("S")) {
+            List<Singer> listSingers = iSingerRepository.findAll();
+            listSingers.forEach(c -> System.out.println("Artista: " + c.getName()));
+
             System.out.print("Escolha um Cantor(a): ");
             var cantor = scanner.nextLine();
 
